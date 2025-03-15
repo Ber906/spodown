@@ -256,20 +256,29 @@ body {
 }
 
 /* Hide scrollbars but keep functionality */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+.output-container::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
 }
 
-::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+/* Hide scrollbars for Firefox */
+.output-container,
+body {
+    scrollbar-width: none;
+    -ms-overflow-style: none;  /* Hide scrollbars for IE and Edge */
 }
 
-::-webkit-scrollbar-thumb {
-    background: var(--spotify-green);
-    border-radius: 4px;
+/* Ensure content is still scrollable */
+.output-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    max-height: 300px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
 }
+
 
 /* Loading animations */
 @keyframes pulse {
@@ -396,7 +405,6 @@ body {
     overflow: hidden;
 }
 
-
 .progress-bar {
     background: var(--primary-gradient);
     transition: width 0.3s ease;
@@ -464,7 +472,6 @@ body {
     color: white;
 }
 
-
 .downloading {
     animation: pulse 2s infinite;
 }
@@ -526,16 +533,13 @@ body {
     color: #1ED760;
 }
 
-
 /* Add these styles to the existing CSS file */
-
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     margin: 3rem 0;
 }
-
 
 .feature-card {
     background: rgba(255, 255, 255, 0.05);
