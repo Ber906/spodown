@@ -189,9 +189,9 @@ body {
 }
 
 .output-text {
-    color: var(--text-secondary);
     font-family: 'Fira Code', monospace;
     font-size: 0.9rem;
+    color: var(--text-secondary);
     white-space: pre-wrap;
     max-height: 300px;
     overflow-y: auto;
@@ -201,6 +201,7 @@ body {
 .alert {
     border-radius: 8px;
     border: none;
+    margin-bottom: 1rem;
 }
 
 .alert-success {
@@ -250,4 +251,61 @@ body {
 
 .downloading {
     animation: pulse 2s infinite;
+}
+
+/* Auth pages styling */
+.auth-card {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-card h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    padding: 0.8rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--spotify-green);
+    box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
+    color: var(--text-primary);
+}
+
+.form-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.auth-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.auth-footer a {
+    color: var(--spotify-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.auth-footer a:hover {
+    color: #1ED760;
 }
