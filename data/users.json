@@ -1,0 +1,8 @@
+{
+  "1": {
+    "username": "admin",
+    "email": "wwah336@gmail.com",
+    "password_hash": "scrypt:32768:8:1$032LEMCKTNlIOKnN$1a26f7ff0607dc4121567dc6a43e9f08feba94331e1ba5b2b76663c04f819bbe063ed104c509405ffb16e680ca010c1cf5d3469c995450895cd64fd5bbd83bfd",
+    "id": "1"
+  }
+}

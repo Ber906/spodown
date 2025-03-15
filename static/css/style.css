@@ -3,6 +3,7 @@
     --secondary-gradient: linear-gradient(135deg, #282828, #181818);
     --text-primary: #FFFFFF;
     --text-secondary: #B3B3B3;
+    --spotify-green: #1DB954;
 }
 
 body {
@@ -10,6 +11,28 @@ body {
     font-family: 'Inter', sans-serif;
     color: var(--text-primary);
     min-height: 100vh;
+}
+
+.navbar {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--spotify-green) !important;
+}
+
+.nav-link {
+    color: var(--text-secondary) !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--text-primary) !important;
 }
 
 .app-container {
@@ -34,6 +57,11 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+.logo p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
 .url-input {
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.1);
@@ -44,7 +72,7 @@ body {
 }
 
 .url-input:focus {
-    border-color: #1DB954;
+    border-color: var(--spotify-green);
     box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
     background: rgba(255, 255, 255, 0.15);
 }
@@ -62,12 +90,85 @@ body {
 .btn-spotify:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+    color: var(--text-primary);
 }
 
-.progress-container {
+/* Downloads page styles */
+.downloads-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.stats-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
     margin: 2rem 0;
 }
 
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 200px;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--spotify-green);
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.download-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.download-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.download-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.download-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.spotify-link {
+    color: var(--spotify-green);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.spotify-link:hover {
+    color: #1ED760;
+}
+
+.no-downloads {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+/* Progress and output styles */
 .progress {
     height: 12px;
     background: rgba(255, 255, 255, 0.1);
@@ -94,6 +195,22 @@ body {
     white-space: pre-wrap;
     max-height: 300px;
     overflow-y: auto;
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-success {
+    background: rgba(29, 185, 84, 0.2);
+    color: #1DB954;
+}
+
+.alert-error {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff4444;
 }
 
 .track-list {

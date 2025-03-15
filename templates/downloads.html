@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="app-container">
+    <div class="downloads-header">
+        <h2>Your Download History</h2>
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-number">{{ downloads|length }}</div>
+                <div class="stat-label">Total Downloads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ recent_downloads|length }}</div>
+                <div class="stat-label">Recent Downloads (24h)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="downloads-list">
+        {% if downloads %}
+            {% for download in downloads %}
+            <div class="download-item">
+                <div class="download-info">
+                    <div class="download-title">{{ download.track_name }}</div>
+                    <div class="download-meta">
+                        <span class="download-date">{{ download.download_date }}</span>
+                        <a href="{{ download.spotify_url }}" target="_blank" class="spotify-link">
+                            <i class="fas fa-external-link-alt"></i> View on Spotify
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-downloads">
+                <p>You haven't downloaded any tracks yet.</p>
+                <a href="{{ url_for('index') }}" class="btn btn-spotify">Start Downloading</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

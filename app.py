@@ -219,5 +219,25 @@ def cancel_download():
         logger.error(f"Failed to cancel download: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+@app.route('/downloads')
+@login_required
+def downloads():
+    # Get all downloads for the current user
+    all_downloads = current_user.get_downloads()
+
+    # Get recent downloads (last 24 hours)
+    from datetime import datetime, timedelta
+    yesterday = datetime.now() - timedelta(days=1)
+    recent_downloads = [
+        d for d in all_downloads 
+        if datetime.fromisoformat(d['download_date']) > yesterday
+    ]
+
+    return render_template(
+        'downloads.html',
+        downloads=all_downloads,
+        recent_downloads=recent_downloads
+    )
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
