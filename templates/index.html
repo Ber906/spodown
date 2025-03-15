@@ -2,9 +2,29 @@
 
 {% block content %}
 <div class="app-container">
-    <div class="logo">
-        <h1>SpoDown</h1>
-        <p class="text-secondary">Download your favorite Spotify tracks and playlists</p>
+    <div class="hero-section">
+        <div class="logo">
+            <h1>SpoDown</h1>
+            <p class="subtitle">Your Personal Music Library Builder</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-music feature-icon"></i>
+                <h3>Download Tracks</h3>
+                <p>Download your favorite songs from Spotify with just one click</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-list-ul feature-icon"></i>
+                <h3>Playlist Support</h3>
+                <p>Download entire playlists and keep your music collection organized</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-history feature-icon"></i>
+                <h3>Track History</h3>
+                <p>Keep track of all your downloads in one convenient place</p>
+            </div>
+        </div>
     </div>
 
     {% if current_user.is_authenticated %}
@@ -51,12 +71,30 @@
             </button>
         </div>
     {% else %}
-        <div class="text-center mt-5">
-            <h2>Please sign in to download tracks</h2>
-            <p class="text-secondary">Create an account or sign in to start downloading your favorite music.</p>
-            <div class="mt-4">
-                <a href="{{ url_for('auth.signin') }}" class="btn btn-spotify btn-lg me-3">Sign In</a>
-                <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-light btn-lg">Sign Up</a>
+        <div class="cta-section text-center mt-5">
+            <h2>Start Building Your Music Collection Today</h2>
+            <p class="text-secondary mb-4">Create an account to download and manage your favorite music tracks.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('auth.signin') }}" class="btn btn-spotify btn-lg me-3">
+                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                </a>
+                <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>Sign Up
+                </a>
+            </div>
+            <div class="benefits mt-5">
+                <div class="benefit-item">
+                    <i class="fas fa-check-circle text-success"></i>
+                    <span>Free to use</span>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-check-circle text-success"></i>
+                    <span>No ads or limitations</span>
+                </div>
+                <div class="benefit-item">
+                    <i class="fas fa-check-circle text-success"></i>
+                    <span>Track your download history</span>
+                </div>
             </div>
         </div>
     {% endif %}
