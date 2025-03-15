@@ -25,16 +25,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const startProgressTracking = () => {
         if (progressInterval) clearInterval(progressInterval);
-        
+
         progressInterval = setInterval(async () => {
             try {
                 const response = await fetch(`/download-progress?session_id=${sessionId}`);
                 const data = await response.json();
-                
+
                 if (response.ok) {
                     progressBar.style.width = `${data.percentage}%`;
                     progressBar.textContent = `${data.percentage}%`;
-                    
+
                     if (data.download_complete) {
                         clearInterval(progressInterval);
                         showNotification('Success', 'Download completed!', 'success');
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const url = urlInput.value.trim();
         if (!url) {
             showNotification('Error', 'Please enter a Spotify URL', 'error');
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             const data = await response.json();
-            
+
             if (response.ok) {
                 sessionId = data.session_id;
                 showNotification('Success', 'Download started', 'success');
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch(`/cancel-download?session_id=${sessionId}`);
             const data = await response.json();
-            
+
             if (data.success) {
                 showNotification('Success', 'Download cancelled', 'info');
                 clearInterval(progressInterval);
@@ -122,9 +122,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    downloadBtn.addEventListener('click', () => {
-        if (sessionId) {
+    downloadBtn.addEventListener('click', async () => {
+        try {
+            const response = await fetch(`/tracks?session_id=${sessionId}`);
+            const tracks = await response.json();
+
+            if (tracks.length === 1) {
+                downloadBtn.textContent = 'Download Track';
+            } else {
+                downloadBtn.textContent = 'Download ZIP';
+            }
+
             window.location.href = `/download/${sessionId}`;
+        } catch (error) {
+            showNotification('Error', 'Failed to start download', 'error');
         }
     });
 
@@ -132,12 +143,12 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             const response = await fetch(`/tracks?session_id=${sessionId}`);
             const tracks = await response.json();
-            
+
             if (response.ok) {
-                const trackList = tracks.map(track => 
+                const trackList = tracks.map(track =>
                     `<div class="track-item">
                         <span>${track}</span>
-                        <button class="btn btn-sm btn-spotify" 
+                        <button class="btn btn-sm btn-spotify"
                                 onclick="window.location.href='/download-track/${sessionId}/${encodeURIComponent(track)}'">
                             Download
                         </button>

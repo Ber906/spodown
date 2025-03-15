@@ -105,7 +105,7 @@ def start_download():
             "process": None,
             "cancelled": False
         }
-
+        
         process = subprocess.Popen(
             ["python3", '-m', 'spotdl', url, '--output', download_folder],
             stdout=subprocess.PIPE,
@@ -142,12 +142,19 @@ def download_progress():
         "download_complete": state["downloaded_size"] == state["num"]
     })
 
-@app.route('/download/<session_id>')
+@app.route('/download/<session_id>', methods=['GET'])
 def download_zip(session_id):
     folder = f"./downloads/{session_id}/"
     if not os.path.exists(folder):
         return jsonify({"error": "No such session"}), 404
 
+    # Check if it's a single track or playlist
+    files = [f for f in os.listdir(folder) if f.endswith('.mp3')]
+    if len(files) == 1:
+        # Single track - return directly
+        return send_file(os.path.join(folder, files[0]), as_attachment=True)
+
+    # Multiple tracks - create zip
     zip_filename = f"./downloads/{session_id}.zip"
     with zipfile.ZipFile(zip_filename, 'w') as zf:
         for root, _, files in os.walk(folder):
