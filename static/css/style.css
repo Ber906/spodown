@@ -11,13 +11,26 @@ body {
     font-family: 'Inter', sans-serif;
     color: var(--text-primary);
     min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile-first approach */
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .navbar {
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 1rem 0;
     margin-bottom: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .navbar-brand {
@@ -29,32 +42,249 @@ body {
 .nav-link {
     color: var(--text-secondary) !important;
     transition: color 0.3s ease;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
 }
 
 .nav-link:hover {
     color: var(--text-primary) !important;
 }
 
+/* Mobile navigation improvements */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar-collapse {
+    background: rgba(0, 0, 0, 0.95);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+@media (min-width: 992px) {
+    .navbar-collapse {
+        background: none;
+        padding: 0;
+    }
+}
+
 .app-container {
     max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
+    margin: 1rem auto;
+    padding: 1rem;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
+@media (min-width: 768px) {
+    .app-container {
+        margin: 2rem auto;
+        padding: 2rem;
+    }
+}
+
+/* Hero section improvements */
+.hero-section {
     text-align: center;
     margin-bottom: 2rem;
 }
 
 .logo h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 700;
     background: var(--primary-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    .logo h1 {
+        font-size: 3rem;
+    }
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* Features grid responsive layout */
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.feature-card:hover, .feature-card:active {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Form elements touch-friendly sizing */
+.form-control {
+    height: 3.5rem;
+    padding: 1rem;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--spotify-green);
+    box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
+}
+
+/* Buttons sizing for touch devices */
+.btn {
+    min-height: 3rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    touch-action: manipulation;
+}
+
+.btn-lg {
+    min-height: 3.5rem;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+.btn-spotify {
+    background: var(--primary-gradient);
+    border: none;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.btn-spotify:hover, .btn-spotify:active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+    color: var(--text-primary);
+}
+
+/* Progress and output containers */
+.progress {
+    height: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: var(--primary-gradient);
+    transition: width 0.3s ease;
+}
+
+.output-container {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    max-height: 300px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.output-text {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+/* Responsive typography */
+@media (max-width: 576px) {
+    body {
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Touch-friendly spacing for mobile */
+@media (max-width: 576px) {
+    .btn + .btn {
+        margin-top: 0.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+}
+
+/* Hide scrollbars but keep functionality */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--spotify-green);
+    border-radius: 4px;
+}
+
+/* Loading animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.loading {
+    animation: pulse 2s infinite;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
 .logo p {
@@ -75,16 +305,6 @@ body {
     border-color: var(--spotify-green);
     box-shadow: 0 0 0 2px rgba(29, 185, 84, 0.2);
     background: rgba(255, 255, 255, 0.15);
-}
-
-.btn-spotify {
-    background: var(--primary-gradient);
-    border: none;
-    color: var(--text-primary);
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
 }
 
 .btn-spotify:hover {
@@ -176,6 +396,7 @@ body {
     overflow: hidden;
 }
 
+
 .progress-bar {
     background: var(--primary-gradient);
     transition: width 0.3s ease;
@@ -243,11 +464,6 @@ body {
     color: white;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
 
 .downloading {
     animation: pulse 2s infinite;
@@ -310,18 +526,8 @@ body {
     color: #1ED760;
 }
 
+
 /* Add these styles to the existing CSS file */
-
-.hero-section {
-    text-align: center;
-    margin-bottom: 3rem;
-}
-
-.subtitle {
-    font-size: 1.2rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-}
 
 .features-grid {
     display: grid;
@@ -329,6 +535,7 @@ body {
     gap: 2rem;
     margin: 3rem 0;
 }
+
 
 .feature-card {
     background: rgba(255, 255, 255, 0.05);
