@@ -2,31 +2,6 @@
 
 {% block content %}
 <div class="app-container">
-    <div class="hero-section">
-        <div class="logo">
-            <h1>SpoDown</h1>
-            <p class="subtitle">Your Personal Music Library Builder</p>
-        </div>
-
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-music feature-icon"></i>
-                <h3>Download Tracks</h3>
-                <p>Download your favorite songs from Spotify with just one click</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-list-ul feature-icon"></i>
-                <h3>Playlist Support</h3>
-                <p>Download entire playlists and keep your music collection organized</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-history feature-icon"></i>
-                <h3>Track History</h3>
-                <p>Keep track of all your downloads in one convenient place</p>
-            </div>
-        </div>
-    </div>
-
     {% if current_user.is_authenticated %}
         <form id="downloadForm" class="mb-4">
             <div class="mb-3">
@@ -71,6 +46,31 @@
             </button>
         </div>
     {% else %}
+        <div class="hero-section">
+            <div class="logo">
+                <h1>SpoDown</h1>
+                <p class="subtitle">Your Personal Music Library Builder</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-music feature-icon"></i>
+                    <h3>Download Tracks</h3>
+                    <p>Download your favorite songs from Spotify with just one click</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-list-ul feature-icon"></i>
+                    <h3>Playlist Support</h3>
+                    <p>Download entire playlists and keep your music collection organized</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-history feature-icon"></i>
+                    <h3>Track History</h3>
+                    <p>Keep track of all your downloads in one convenient place</p>
+                </div>
+            </div>
+        </div>
+
         <div class="cta-section text-center mt-5">
             <h2>Start Building Your Music Collection Today</h2>
             <p class="text-secondary mb-4">Create an account to download and manage your favorite music tracks.</p>
