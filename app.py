@@ -1,5 +1,6 @@
-from flask import Flask, request, send_file, jsonify, render_template
+from flask import Flask, request, send_file, jsonify, render_template, redirect, url_for
 import subprocess, json, time, os, zipfile, shutil, logging
+from flask_login import LoginManager, login_required, current_user
 from threading import Thread
 from sys import platform
 import uuid
@@ -10,6 +11,20 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET", "dev_key_123")  # For dev only
+
+# Login manager setup
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    from models import User
+    return User.get_by_id(user_id)
+
+# Import routes after app initialization
+from routes.auth import auth_bp
+app.register_blueprint(auth_bp)
 
 # Global dictionary to store download states
 download_states = {}
@@ -37,16 +52,16 @@ def read_stdout(process, session_id):
             line = process.stdout.readline()
             if not line:
                 break
-            
+
             if line.startswith(b"Found "):
                 try:
                     download_states[session_id]["num"] = int(line.split(b" ")[1].decode())
                 except ValueError:
                     logger.warning(f"Could not parse track count from line: {line}")
-                    
+
             if line.startswith(b"Downloaded ") or line.startswith(b"Skipping "):
                 download_states[session_id]["downloaded_size"] += 1
-                
+
             download_states[session_id]["output"] += line
             time.sleep(0.05)
     except Exception as e:
@@ -76,23 +91,27 @@ install_ffmpeg()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', user=current_user)
 
 @app.route('/download', methods=['POST'])
+@login_required
 def start_download():
     try:
         url = request.json.get("url")
         if not url:
             return jsonify({"error": "URL is required"}), 400
-            
+
         if not url.startswith("https://open.spotify.com/"):
             return jsonify({"error": "Invalid Spotify URL"}), 400
 
         session_id = str(uuid.uuid4())
         download_folder = f"./downloads/{session_id}/"
-        
+
         os.makedirs(download_folder, exist_ok=True)
-        
+
+        # Create download record using JSON DB
+        download = current_user.add_download(spotify_url=url)
+
         download_states[session_id] = {
             "output": b"",
             "n": 1,
@@ -103,25 +122,25 @@ def start_download():
             "timestamp": time.time(),
             "error": None,
             "process": None,
-            "cancelled": False
+            "cancelled": False,
+            "download_id": download['id']
         }
-        
+
         process = subprocess.Popen(
             ["python3", '-m', 'spotdl', url, '--output', download_folder],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        
+
         download_states[session_id]["process"] = process
         Thread(target=read_stdout, args=(process, session_id), daemon=True).start()
-        
+
         return jsonify({"session_id": session_id})
-        
+
     except Exception as e:
         logger.error(f"Download error: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
-# Remaining routes from original implementation...
 @app.route('/output')
 def get_output():
     session_id = request.args.get('session_id')
@@ -191,7 +210,7 @@ def cancel_download():
     if state["process"]:
         state["process"].terminate()
         state["cancelled"] = True
-        
+
     try:
         shutil.rmtree(state["folder"])
         del download_states[session_id]
