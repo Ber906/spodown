@@ -1,9 +1,10 @@
 import os
 import json
-from flask import Blueprint, redirect, request, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from oauthlib.oauth2 import WebApplicationClient
 import requests
+from forms import SignupForm, SigninForm
 from models import User
 
 auth_bp = Blueprint('auth', __name__)
@@ -83,8 +84,42 @@ def callback():
     # Send user back to homepage
     return redirect(url_for("index"))
 
+@auth_bp.route("/signup", methods=['GET', 'POST'])
+def signup():
+    form = SignupForm()
+    if form.validate_on_submit():
+        if User.get_by_email(form.email.data):
+            flash('Email already registered', 'error')
+            return render_template('auth/signup.html', form=form)
+
+        user = User.create(
+            username=form.username.data,
+            email=form.email.data,
+            password=form.password.data
+        )
+        login_user(user)
+        flash('Successfully registered!', 'success')
+        return redirect(url_for('index'))
+
+    return render_template('auth/signup.html', form=form)
+
+@auth_bp.route("/signin", methods=['GET', 'POST'])
+def signin():
+    form = SigninForm()
+    if form.validate_on_submit():
+        user = User.get_by_email(form.email.data)
+        if user and user.check_password(form.password.data):
+            login_user(user)
+            flash('Successfully logged in!', 'success')
+            next_page = request.args.get('next')
+            return redirect(next_page if next_page else url_for('index'))
+        flash('Invalid email or password', 'error')
+
+    return render_template('auth/signin.html', form=form)
+
 @auth_bp.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("index"))
+    flash('Successfully logged out!', 'success')
+    return redirect(url_for('index'))

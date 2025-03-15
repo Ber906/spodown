@@ -26,10 +26,10 @@ def save_json(file_path: str, data: dict):
 
 class JsonDB:
     @staticmethod
-    def get_user_by_oauth(oauth_id: str) -> Optional[Dict]:
+    def get_user_by_email(email: str) -> Optional[Dict]:
         users = load_json(USERS_FILE)
-        return next((user for user in users.values() if user.get('oauth_id') == oauth_id), None)
-    
+        return next((user for user in users.values() if user.get('email') == email), None)
+
     @staticmethod
     def get_user_by_id(user_id: str) -> Optional[Dict]:
         users = load_json(USERS_FILE)
